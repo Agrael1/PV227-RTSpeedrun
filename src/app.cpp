@@ -24,6 +24,12 @@ uint32_t w::App::ProcessEvents()
         case SDL_EVENT_KEY_DOWN:
             OnKeyPressed(event);
             break;
+        case SDL_EVENT_MOUSE_MOTION:
+            OnMouseMove(event);
+            break;
+        case SDL_EVENT_MOUSE_WHEEL:
+            OnWheel(event);
+            break;
         }
     }
     return 1;

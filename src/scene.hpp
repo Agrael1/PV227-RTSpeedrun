@@ -2,7 +2,6 @@
 #include "model.hpp"
 #include "consts.hpp"
 #include "camera.hpp"
-#include <bitset>
 
 namespace w {
 
@@ -21,6 +20,10 @@ public:
 
     void Draw(w::Graphics& gfx, wis::CommandList& cmd_list, uint32_t frame_index);
     void CopyToOutput(wis::CommandList& cmd_list, uint32_t frame_index, const wis::Texture& out_texture);
+
+public:
+    void RotateCamera(float dx, float dy);
+    void ZoomCamera(float dz);
 
 private:
     void LoadShaders(w::Graphics& gfx);
@@ -52,6 +55,5 @@ private:
     w::Camera camera;
     wis::Buffer camera_buffer;
     uint8_t* mapped_cbuffer = nullptr;
-    std::bitset<w::flight_frames> camera_dirty;
 };
 } // namespace w

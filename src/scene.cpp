@@ -75,7 +75,7 @@ void w::Scene::Resize(w::Graphics& gfx, uint32_t width, uint32_t height)
     dispatch_desc.height = height;
     dispatch_desc.depth = 1;
 
-    camera.SetPerspective(60.0f, float(width) / float(height), 0.1f, 100.0f);
+    camera.SetPerspective(std::numbers::pi_v<float> / 3.0f, float(width) / float(height), 0.1f, 1000.0f);
 }
 
 void w::Scene::CreatePipelines(w::Graphics& gfx)
@@ -134,6 +134,8 @@ void w::Scene::CreatePipelines(w::Graphics& gfx)
         .shader_count = 1,
         .exports = exports,
         .export_count = std::size(exports),
+        .hit_groups = hit_groups,
+        .hit_group_count = std::size(hit_groups),
         .max_recursion_depth = 1,
         .max_payload_size = 24,
         .max_attribute_size = 8,
@@ -278,6 +280,16 @@ void w::Scene::CopyToOutput(wis::CommandList& cmd_list, uint32_t frame_index, co
     };
     cmd_list.CopyTexture(rt_output[frame_index], out_texture, &region, 1);
     cmd_list.TextureBarriers(after, std::size(after));
+}
+
+void w::Scene::RotateCamera(float dx, float dy)
+{
+    camera.Rotate(dx * 0.05f, dy * 0.05f);
+}
+
+void w::Scene::ZoomCamera(float dz)
+{
+    camera.Zoom(dz);
 }
 
 void w::Scene::LoadShaders(w::Graphics& gfx)

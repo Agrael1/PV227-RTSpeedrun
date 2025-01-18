@@ -19,7 +19,6 @@ public:
         }
         aux_cmd_list = gfx.GetDevice().CreateCommandList(res, wis::QueueType::Graphics);
 
-
         scene.CreatePipelines(gfx);
         scene.Resize(gfx, 800, 600);
         scene.CreateTLAS(gfx, aux_cmd_list); // reset the command list (local buffers)
@@ -68,6 +67,16 @@ private:
             window.PostQuit();
             break;
         }
+    }
+    void OnMouseMove(const SDL_Event& event)
+    {
+        if (event.motion.state & SDL_BUTTON_LMASK) {
+            scene.RotateCamera(float(event.motion.xrel), float(event.motion.yrel));
+        }
+    }
+    void OnWheel(const SDL_Event& event)
+    {
+        scene.ZoomCamera(float(event.wheel.y));
     }
 
 private:

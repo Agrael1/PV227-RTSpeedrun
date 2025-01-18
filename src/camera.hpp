@@ -54,8 +54,8 @@ public:
 
     void Rotate(float pitch, float yaw) noexcept
     {
-        _orientation.x = WrapAngle(_orientation.y + pitch);
-        _orientation.y = std::clamp(WrapAngle(_orientation.x + yaw), 0.995f * -std::numbers::pi_v<float> / 2, 0.995f * std::numbers::pi_v<float> / 2);
+        _orientation.y = WrapAngle(_orientation.y + pitch);
+        _orientation.x = std::clamp(WrapAngle(_orientation.x + yaw), 0.995f * -std::numbers::pi_v<float> / 2, 0.995f * std::numbers::pi_v<float> / 2);
         SetOrientation();
     }
     void Zoom(float amount)

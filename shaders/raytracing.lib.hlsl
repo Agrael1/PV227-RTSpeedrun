@@ -38,19 +38,15 @@ void RayGeneration()
     float4 target = mul(camera.invProjection, float4(d.x, d.y, 1, 1));
 
     RayDesc rayDesc;
-    //rayDesc.Origin = mul(camera.invView, float4(0, 0, 0, 1)).xyz;
-    //rayDesc.Direction = mul(camera.invView, float4(normalize(target.xyz), 0)).xyz;
-    
-    rayDesc.Origin = float3(1, 1, 0);
-    rayDesc.Direction = float3(-1, -1, 0);
-    
+    rayDesc.Origin = mul(camera.invView, float4(0, 0, 0, 1)).xyz;
+    rayDesc.Direction = mul(camera.invView, float4(normalize(target.xyz), 0)).xyz;    
     rayDesc.TMin = 0.01;
-    rayDesc.TMax = 100.0;
+    rayDesc.TMax = 1000.0;
     
     Payload payload;
     TraceRay(scene[0], RAY_FLAG_NONE, 0xff, 0, 0, 0, rayDesc, payload);
 
-    image[frameIndex.frameIndex][int2(LaunchID.xy)] = float4(1,0,1, 1.0);
+    image[frameIndex.frameIndex][int2(LaunchID.xy)] = float4(payload.color, 1.0);
 }
 
 [shader("miss")]

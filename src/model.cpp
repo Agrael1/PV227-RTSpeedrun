@@ -35,7 +35,13 @@ w::Model::Model(w::Graphics& gfx)
     std::copy_n(mesh.indices.data(), mesh.indices.size(), indices);
 
     DirectX::XMFLOAT3* vertices = (DirectX::XMFLOAT3*)(indices + mesh.indices.size());
-    std::copy_n(mesh.vertices.data(), mesh.vertices.size(), vertices);
+    // scale vertices
+    DirectX::XMVECTOR scale = DirectX::XMVectorSet(0.01f, -0.01f, 0.01f, 1);
+    for (size_t i = 0; i < mesh.vertices.size(); ++i) {
+        DirectX::XMVECTOR v = DirectX::XMLoadFloat3(&mesh.vertices[i]);
+        v = DirectX::XMVectorMultiply(v, scale);
+        DirectX::XMStoreFloat3(&vertices[i], v);
+    }
 
     DirectX::XMFLOAT3* normals = (DirectX::XMFLOAT3*)(vertices + mesh.vertices.size());
     std::copy_n(mesh.normals.data(), mesh.normals.size(), normals);
